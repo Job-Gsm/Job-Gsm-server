@@ -8,9 +8,9 @@ import com.project.JobGsm.domain.user.dto.response.UserSignInResponseDto;
 import java.util.Map;
 
 public interface UserService {
+
     Long signup(UserSignUpDto userSignUpDto);
     UserSignInResponseDto signin(UserSignInDto userSignInDto);
-    Map<String, String> token(User user);
-
+    Map<String, String> createToken(User user);
 
 }

@@ -46,15 +46,18 @@ public class UserServiceImpl implements UserService {
             throw new PasswordNotMatchException(PASSWORD_NOT_MATCH);
         }
 
-
+        return new UserSignInResponseDto(createToken(user));
     }
 
     @Override
-    public Map<String, String> token(User user) {
+    public Map<String, String> createToken(User user) {
         Map<String, String> token = new HashMap<>();
         final String accessToken = jwtTokenProvider.generateAccessToken(user.getEmail());
         final String refreshToken = jwtTokenProvider.generateRefreshToken(user.getEmail());
-
+        user.updateRefreshToken(refreshToken);
+        token.put("accessToken", accessToken);
+        token.put("refreshToken", refreshToken);
+        return token;
     }
 
 
