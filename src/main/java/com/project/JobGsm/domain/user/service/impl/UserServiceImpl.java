@@ -42,7 +42,7 @@ public class UserServiceImpl implements UserService {
     public UserSignInResponseDto signin(UserSignInDto userSignInDto) {
         User user = userRepository.findByEmail(userSignInDto.getEmail())
                 .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND));
-        if(passwordEncoder.matches(userSignInDto.getPassword(), user.getPassword())) {
+        if(!passwordEncoder.matches(userSignInDto.getPassword(), user.getPassword())) {
             throw new PasswordNotMatchException(PASSWORD_NOT_MATCH);
         }
 
