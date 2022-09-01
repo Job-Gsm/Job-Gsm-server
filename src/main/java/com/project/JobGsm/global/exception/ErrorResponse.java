@@ -10,11 +10,17 @@ import org.springframework.http.HttpStatus;
 @NoArgsConstructor
 public class ErrorResponse {
 
-    private HttpStatus httpStatus;
+    private int status;
     private String message;
 
+
     public ErrorResponse(ErrorCode errorCode) {
-        this.httpStatus = errorCode.getHttpStatus();
+        this.status = errorCode.getStatus();
         this.message = errorCode.getMessage();
+    }
+
+    public ErrorResponse(String message, int status) {
+        this.message = message;
+        this.status = status;
     }
 }
