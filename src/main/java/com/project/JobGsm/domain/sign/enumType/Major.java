@@ -1,4 +1,4 @@
-package com.project.JobGsm.domain.user.enumType;
+package com.project.JobGsm.domain.sign.enumType;
 
 import lombok.Getter;
 

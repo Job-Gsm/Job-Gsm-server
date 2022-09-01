@@ -1,10 +1,9 @@
-package com.project.JobGsm.domain.user.service;
+package com.project.JobGsm.domain.sign.service;
 
-import com.project.JobGsm.domain.user.dto.request.UserSignInDto;
-import com.project.JobGsm.domain.user.dto.request.UserSignUpDto;
-import com.project.JobGsm.domain.user.dto.response.UserSignInResponseDto;
-import com.project.JobGsm.domain.user.repository.UserRepository;
-import org.assertj.core.api.Assertions;
+import com.project.JobGsm.domain.sign.dto.request.SignInDto;
+import com.project.JobGsm.domain.sign.dto.request.SignUpDto;
+import com.project.JobGsm.domain.sign.dto.response.UserSignInResponseDto;
+import com.project.JobGsm.domain.sign.repository.UserRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,9 +12,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
-class UserServiceTest {
+class SignServiceTest {
 
-    @Autowired private UserService userService;
+    @Autowired private SignService signService;
     @Autowired private UserRepository userRepository;
 
     @Test
@@ -23,17 +22,17 @@ class UserServiceTest {
     void signup() {
 
         // given
-        UserSignUpDto userSignUpDto = UserSignUpDto.builder()
+        SignUpDto signUpDto = SignUpDto.builder()
                 .email("s21023@gsm.hs.kr")
                 .password("kimsunggil2005!")
                 .username("김성길")
                 .build();
 
         // then
-        Long user = userService.signup(userSignUpDto);
+        Long user = signService.signup(signUpDto);
 
         // when
-        assertThat(user).isEqualTo(userRepository.findByEmail(userSignUpDto.getEmail()).orElseThrow().getUser_id());
+        assertThat(user).isEqualTo(userRepository.findByEmail(signUpDto.getEmail()).orElseThrow().getUser_id());
     }
 
     @Test
@@ -41,16 +40,23 @@ class UserServiceTest {
     void signin() {
 
         // given
-        UserSignInDto userSignInDto = UserSignInDto.builder()
+        SignInDto signInDto = SignInDto.builder()
                 .email("s21023@gsm.hs.kr")
                 .password("kimsunggil2005!")
                 .build();
 
         // when
-        UserSignInResponseDto user = userService.signin(userSignInDto);
+        UserSignInResponseDto user = signService.signin(signInDto);
 
         // then
         assertThat(user).isNotNull();
+    }
+
+    @Test
+    @DisplayName("회원가입 이메일 테스트")
+    void signupEmail() {
+
+
     }
 
 }

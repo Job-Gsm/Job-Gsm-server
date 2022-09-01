@@ -31,6 +31,11 @@ public class SecurityConfig {
                 .and()
                 .authorizeRequests()
 
+                .antMatchers("/user/signup").permitAll()
+                .antMatchers("/user/signin").permitAll()
+                .antMatchers("/user/signup/email").permitAll()
+                .antMatchers("/user/signup/check/email").permitAll()
+
                 // 권한별 url 접근
                 .antMatchers("/v1/admin/**").hasRole("ADMIN")
                 .antMatchers("/v1/user/**").hasRole("USER")

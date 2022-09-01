@@ -1,4 +1,4 @@
-package com.project.JobGsm.domain.user.dto.response;
+package com.project.JobGsm.domain.sign.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
