@@ -1,6 +1,5 @@
 package com.project.JobGsm.global.security.exception;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.JobGsm.global.exception.ErrorCode;
 import com.project.JobGsm.global.exception.ErrorResponse;
@@ -45,7 +44,7 @@ public class ExceptionHandlerFilter extends OncePerRequestFilter {
     }
 
     public void setErrorResponse(ErrorCode errorCode, HttpServletResponse response) throws IOException {
-        response.setStatus(errorCode.getHttpStatus().value());
+        response.setStatus(errorCode.getStatus());
         response.setContentType("application/json; charset=utf-8");
         ErrorResponse errorResponse = new ErrorResponse(errorCode);
         String errorResponseEntityToJson = objectMapper.writeValueAsString(errorResponse);
