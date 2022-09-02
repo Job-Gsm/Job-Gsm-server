@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
+import java.util.Random;
+
 import static com.project.JobGsm.global.exception.ErrorCode.KEY_NOT_CORRECT;
 
 @Service
@@ -18,7 +20,10 @@ public class SendEmailUtil {
     private final JavaMailSender javaMailSender;
     private final RedisUtil redisUtil;
 
-    public void sendEmailText(String email, String authKey) {
+    public void sendEmailText(String email) {
+
+        Random random = new Random();
+        String authKey = String.valueOf(random.nextInt(88888) + 11111);
 
         try {
             MimeMessage mimeMessage = javaMailSender.createMimeMessage();
