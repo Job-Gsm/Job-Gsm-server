@@ -1,6 +1,6 @@
 package com.project.JobGsm.domain.sign.repository;
 
-import com.project.JobGsm.domain.sign.User;
+import com.project.JobGsm.domain.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

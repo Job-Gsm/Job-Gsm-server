@@ -1,4 +1,4 @@
-package com.project.JobGsm.domain.sign;
+package com.project.JobGsm.domain.user;
 
 import com.project.JobGsm.domain.sign.enumType.Role;
 import lombok.AllArgsConstructor;
