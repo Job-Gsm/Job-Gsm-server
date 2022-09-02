@@ -1,9 +1,6 @@
 package com.project.JobGsm.domain.sign.controller;
 
-import com.project.JobGsm.domain.sign.dto.request.CheckEmailKeyDto;
-import com.project.JobGsm.domain.sign.dto.request.SignInDto;
-import com.project.JobGsm.domain.sign.dto.request.SignUpDto;
-import com.project.JobGsm.domain.sign.dto.request.SignUpEmailDto;
+import com.project.JobGsm.domain.sign.dto.request.*;
 import com.project.JobGsm.domain.sign.dto.response.UserSignInResponseDto;
 import com.project.JobGsm.domain.sign.service.SignService;
 import com.project.JobGsm.global.response.ResponseService;
@@ -35,15 +32,20 @@ public class SignController {
         return responseService.getSingleResult(result);
     }
 
-    @PostMapping("signup/email")
-    public CommonResultResponse signupEmail(@Valid @RequestBody SignUpEmailDto signUpEmailDto) {
-        String result = signService.signupEmail(signUpEmailDto);
-        return responseService.getSingleResult(result);
+    @PostMapping("send/email")
+    public CommonResultResponse signupSendEmail(@Valid @RequestBody EmailDto emailDto) {
+        signService.signupSendEmail(emailDto);
+        return responseService.getSuccessResult();
     }
 
-    @PostMapping("signup/check/email")
+    @PostMapping("check/email")
     public CommonResultResponse checkEmail(@Valid @RequestBody CheckEmailKeyDto checkEmailKeyDto) {
         signService.checkEmailKey(checkEmailKeyDto);
         return responseService.getSuccessResult();
     }
+
+//    @PostMapping("change/password")
+//    public CommonResultResponse changePassword(@Valid @RequestBody ChangePasswordDto changePasswordDto) {
+//        signService.changePassword(changePasswordDto);
+//    }
 }
