@@ -1,13 +1,13 @@
 package com.project.JobGsm.domain.sign.service.impl;
 
-import com.project.JobGsm.domain.sign.User;
 import com.project.JobGsm.domain.sign.dto.request.CheckEmailKeyDto;
+import com.project.JobGsm.domain.sign.dto.request.EmailDto;
 import com.project.JobGsm.domain.sign.dto.request.SignInDto;
 import com.project.JobGsm.domain.sign.dto.request.SignUpDto;
-import com.project.JobGsm.domain.sign.dto.request.SignUpEmailDto;
 import com.project.JobGsm.domain.sign.dto.response.UserSignInResponseDto;
 import com.project.JobGsm.domain.sign.repository.UserRepository;
 import com.project.JobGsm.domain.sign.service.SignService;
+import com.project.JobGsm.domain.user.User;
 import com.project.JobGsm.global.exception.exceptions.DuplicateEmailException;
 import com.project.JobGsm.global.exception.exceptions.PasswordNotMatchException;
 import com.project.JobGsm.global.exception.exceptions.UserNotFoundException;
@@ -18,10 +18,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Random;
 
 import static com.project.JobGsm.global.exception.ErrorCode.*;
 
@@ -35,7 +35,13 @@ public class SignServiceImpl implements SignService {
     private final JwtTokenProvider jwtTokenProvider;
     private final SendEmailUtil sendEmailUtil;
 
+    /**
+     * 회원가입 로직
+     * @param signUpDto username, email, password
+     * @return userId
+     */
     @Override
+    @Transactional
     public Long signup(SignUpDto signUpDto) {
         Optional<User> findByEmail = userRepository.findByEmail(signUpDto.getEmail());
         if(findByEmail.isPresent()) {
@@ -45,7 +51,13 @@ public class SignServiceImpl implements SignService {
         return userRepository.save(user).getUser_id();
     }
 
+    /**
+     * 로그인 로직
+     * @param signInDto email, password
+     * @return userSigninDto accessToken refreshToken
+     */
     @Override
+    @Transactional
     public UserSignInResponseDto signin(SignInDto signInDto) {
         User user = userRepository.findByEmail(signInDto.getEmail())
                 .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND));
@@ -55,7 +67,13 @@ public class SignServiceImpl implements SignService {
         return new UserSignInResponseDto(createToken(user));
     }
 
+    /**
+     * 토큰 생성 로직
+     * @param user
+     * @return map accesstoken refreshToken
+     */
     @Override
+    @Transactional
     public Map<String, String> createToken(User user) {
         Map<String, String> token = new HashMap<>();
         final String accessToken = jwtTokenProvider.generateAccessToken(user.getEmail());
@@ -66,14 +84,23 @@ public class SignServiceImpl implements SignService {
         return token;
     }
 
+    /**
+     * 회원가입 할 때 이메일 발송 로직
+     * @param emailDto email
+     */
     @Override
-    public String signupEmail(SignUpEmailDto signUpEmailDto) {
-        Random random = new Random();
-        String authKey = String.valueOf(random.nextInt(88888) + 11111);
-        sendEmailUtil.sendEmailText(signUpEmailDto.getEmail(), authKey);
-        return authKey;
+    @Transactional
+    public void signupSendEmail(EmailDto emailDto) {
+        userRepository.findByEmail(emailDto.getEmail())
+                .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND));
+
+        sendEmailUtil.sendEmailText(emailDto.getEmail());
     }
 
+    /**
+     * 인증번호 확인 로직
+     * @param checkEmailKeyDto key
+     */
     @Override
     public void checkEmailKey(CheckEmailKeyDto checkEmailKeyDto) {
         sendEmailUtil.checkEmailKey(checkEmailKeyDto.getKey());
