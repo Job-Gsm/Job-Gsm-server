@@ -33,12 +33,13 @@ public class SecurityConfig {
 
                 .antMatchers("/user/signup").permitAll()
                 .antMatchers("/user/signin").permitAll()
-                .antMatchers("/user/signup/email").permitAll()
-                .antMatchers("/user/signup/check/email").permitAll()
+                .antMatchers("/refreshToken").permitAll()
+                .antMatchers("/user/send/email").permitAll()
+                .antMatchers("/user/check/email").permitAll()
 
                 // 권한별 url 접근
-                .antMatchers("/v1/admin/**").hasRole("ADMIN")
-                .antMatchers("/v1/user/**").hasRole("USER")
+                .antMatchers("/admin/**").hasRole("ADMIN")
+                .antMatchers("/user/**").hasRole("USER")
 
                 .anyRequest().authenticated()
                 .and()
