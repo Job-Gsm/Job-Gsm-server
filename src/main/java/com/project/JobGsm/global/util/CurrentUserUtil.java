@@ -1,6 +1,6 @@
 package com.project.JobGsm.global.util;
 
-import com.project.JobGsm.domain.sign.repository.UserRepository;
+import com.project.JobGsm.domain.user.repository.UserRepository;
 import com.project.JobGsm.domain.user.User;
 import com.project.JobGsm.global.exception.exceptions.UserNotFoundException;
 import lombok.RequiredArgsConstructor;

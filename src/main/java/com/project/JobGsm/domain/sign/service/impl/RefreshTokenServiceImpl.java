@@ -1,7 +1,7 @@
 package com.project.JobGsm.domain.sign.service.impl;
 
 import com.project.JobGsm.domain.sign.dto.request.RefreshTokenDto;
-import com.project.JobGsm.domain.sign.repository.UserRepository;
+import com.project.JobGsm.domain.user.repository.UserRepository;
 import com.project.JobGsm.domain.sign.service.RefreshTokenService;
 import com.project.JobGsm.domain.user.User;
 import com.project.JobGsm.global.exception.ErrorCode;

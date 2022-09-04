@@ -1,6 +1,6 @@
 package com.project.JobGsm.global.security.authentication;
 
-import com.project.JobGsm.domain.sign.repository.UserRepository;
+import com.project.JobGsm.domain.user.repository.UserRepository;
 import com.project.JobGsm.global.exception.exceptions.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;

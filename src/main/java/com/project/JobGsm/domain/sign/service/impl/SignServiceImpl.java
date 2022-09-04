@@ -5,7 +5,7 @@ import com.project.JobGsm.domain.sign.dto.request.EmailDto;
 import com.project.JobGsm.domain.sign.dto.request.SignInDto;
 import com.project.JobGsm.domain.sign.dto.request.SignUpDto;
 import com.project.JobGsm.domain.sign.dto.response.UserSignInResponseDto;
-import com.project.JobGsm.domain.sign.repository.UserRepository;
+import com.project.JobGsm.domain.user.repository.UserRepository;
 import com.project.JobGsm.domain.sign.service.SignService;
 import com.project.JobGsm.domain.user.User;
 import com.project.JobGsm.global.exception.exceptions.DuplicateEmailException;
