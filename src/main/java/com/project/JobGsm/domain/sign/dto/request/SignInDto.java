@@ -19,8 +19,8 @@ public class SignInDto {
     @NotBlank
     private String email;
 
-    @NotBlank
     @Size(min = 4, max = 15)
+    @NotBlank
     private String password;
 
 }
