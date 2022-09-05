@@ -51,7 +51,7 @@ public class User implements UserDetails {
 
     @Column
     @Enumerated(STRING)
-    @ElementCollection(fetch = FetchType.EAGER)
+    @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name = "Role", joinColumns = @JoinColumn(name = "user_id"))
     private List<Role> role;
 
@@ -84,11 +84,10 @@ public class User implements UserDetails {
     }
 
     public void updateRefreshToken(String refreshToken) {
-        this.refreshToken = refreshToken;
+        this.refreshToken = refreshToken != null ? refreshToken : this.refreshToken;
     }
 
-    public void updateMajorAndCareer(String career) {
-        this.career = career;
+    public void updatePassword(String password) {
+        this.password = password != null ? password : this.password;
     }
-
 }
