@@ -26,6 +26,7 @@ public class SignController {
         signService.signup(signUpDtoDto);
         return responseService.getSuccessResult();
     }
+
     @PostMapping("signin")
     public CommonResultResponse signin(@Valid @RequestBody SignInDto signInDto) {
         UserSignInResponseDto result = signService.signin(signInDto);
@@ -43,9 +44,9 @@ public class SignController {
         signService.checkEmailKey(checkEmailKeyDto);
         return responseService.getSuccessResult();
     }
-
-//    @PostMapping("change/password")
-//    public CommonResultResponse changePassword(@Valid @RequestBody ChangePasswordDto changePasswordDto) {
-//        signService.changePassword(changePasswordDto);
-//    }
+    @PostMapping("change/password")
+    public CommonResultResponse changePassword(@Valid @RequestBody ChangePasswordDto changePasswordDto) {
+        signService.changePassword(changePasswordDto);
+        return responseService.getSuccessResult();
+    }
 }

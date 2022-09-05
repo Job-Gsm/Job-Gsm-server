@@ -1,9 +1,6 @@
 package com.project.JobGsm.domain.sign.service.impl;
 
-import com.project.JobGsm.domain.sign.dto.request.CheckEmailKeyDto;
-import com.project.JobGsm.domain.sign.dto.request.EmailDto;
-import com.project.JobGsm.domain.sign.dto.request.SignInDto;
-import com.project.JobGsm.domain.sign.dto.request.SignUpDto;
+import com.project.JobGsm.domain.sign.dto.request.*;
 import com.project.JobGsm.domain.sign.dto.response.UserSignInResponseDto;
 import com.project.JobGsm.domain.user.repository.UserRepository;
 import com.project.JobGsm.domain.sign.service.SignService;
@@ -69,7 +66,7 @@ public class SignServiceImpl implements SignService {
 
     /**
      * 토큰 생성 로직
-     * @param user
+     * @param user user
      * @return map accesstoken refreshToken
      */
     @Override
@@ -90,11 +87,11 @@ public class SignServiceImpl implements SignService {
      */
     @Override
     @Transactional
-    public void signupSendEmail(EmailDto emailDto) {
+    public String signupSendEmail(EmailDto emailDto) {
         userRepository.findByEmail(emailDto.getEmail())
                 .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND));
 
-        sendEmailUtil.sendEmailText(emailDto.getEmail());
+        return sendEmailUtil.sendEmailText(emailDto.getEmail());
     }
 
     /**
@@ -104,5 +101,18 @@ public class SignServiceImpl implements SignService {
     @Override
     public void checkEmailKey(CheckEmailKeyDto checkEmailKeyDto) {
         sendEmailUtil.checkEmailKey(checkEmailKeyDto.getKey());
+    }
+
+    /**
+     * 비밀번호 변경 로직
+     * @param changePasswordDto email, newPassword
+     */
+    @Override
+    @Transactional
+    public void changePassword(ChangePasswordDto changePasswordDto) {
+        User user = userRepository.findByEmail(changePasswordDto.getEmail())
+                .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND));
+
+        user.updatePassword(passwordEncoder.encode(changePasswordDto.getNewPassword()));
     }
 }
