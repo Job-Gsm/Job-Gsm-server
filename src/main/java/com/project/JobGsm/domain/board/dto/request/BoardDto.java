@@ -25,9 +25,10 @@ public class BoardDto {
         return Board.builder()
                 .title(title)
                 .content(content)
+                .user(user)
                 .majors(majors)
                 .deadline(deadline)
-                .url(url)
+                .url("https://job-gsm-bucket.s3.ap-northeast-2.amazonaws.com/" + url)
                 .build();
     }
 }
