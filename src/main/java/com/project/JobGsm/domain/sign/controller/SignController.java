@@ -7,6 +7,7 @@ import com.project.JobGsm.global.response.ResponseService;
 import com.project.JobGsm.global.response.result.CommonResultResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Email;

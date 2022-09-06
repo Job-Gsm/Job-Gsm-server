@@ -7,9 +7,9 @@ import com.project.JobGsm.global.response.ResponseService;
 import com.project.JobGsm.global.response.result.CommonResultResponse;
 import com.project.JobGsm.global.response.result.SingleResult;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor

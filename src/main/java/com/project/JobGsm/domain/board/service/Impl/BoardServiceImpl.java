@@ -12,12 +12,10 @@ import com.project.JobGsm.global.exception.exceptions.BoardNotFoundException;
 import com.project.JobGsm.global.util.CurrentUserUtil;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
