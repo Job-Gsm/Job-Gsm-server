@@ -12,7 +12,8 @@ public interface SignService {
     Long signup(SignUpDto signUpDto);
     UserSignInResponseDto signin(SignInDto signInDto);
     Map<String, String> createToken(User user);
-    void signupSendEmail(EmailDto emailDto);
+    String signupSendEmail(EmailDto emailDto);
+    String forgotPasswordSendEmail(EmailDto emailDto);
     void checkEmailKey(CheckEmailKeyDto checkEmailKeyDto);
-
+    String changePassword(ChangePasswordDto changePasswordDto);
 }

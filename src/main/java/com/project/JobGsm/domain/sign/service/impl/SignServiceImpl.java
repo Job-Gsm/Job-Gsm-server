@@ -84,11 +84,23 @@ public class SignServiceImpl implements SignService {
     /**
      * 회원가입 할 때 이메일 발송 로직
      * @param emailDto email
+     * @return authKey
      */
     @Override
     @Transactional
     public String signupSendEmail(EmailDto emailDto) {
-        userRepository.findByEmail(emailDto.getEmail())
+        return sendEmailUtil.sendEmailText(emailDto.getEmail());
+    }
+
+    /**
+     * 비밀번호 잃어버렸을 때 이메일 발송 로직
+     * @param emailDto email
+     * @return authKey
+     */
+    @Override
+    @Transactional
+    public String forgotPasswordSendEmail(EmailDto emailDto) {
+        User user = userRepository.findByEmail(emailDto.getEmail())
                 .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND));
 
         return sendEmailUtil.sendEmailText(emailDto.getEmail());
@@ -106,13 +118,17 @@ public class SignServiceImpl implements SignService {
     /**
      * 비밀번호 변경 로직
      * @param changePasswordDto email, newPassword
+     * @return newPassword(encode)
      */
     @Override
     @Transactional
-    public void changePassword(ChangePasswordDto changePasswordDto) {
+    public String changePassword(ChangePasswordDto changePasswordDto) {
         User user = userRepository.findByEmail(changePasswordDto.getEmail())
                 .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND));
-
-        user.updatePassword(passwordEncoder.encode(changePasswordDto.getNewPassword()));
+        String newPassword = passwordEncoder.encode(changePasswordDto.getNewPassword());
+        user.updatePassword(newPassword);
+        return newPassword;
     }
+
+
 }

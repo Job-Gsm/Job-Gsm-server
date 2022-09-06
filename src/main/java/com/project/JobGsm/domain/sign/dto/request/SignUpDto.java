@@ -1,7 +1,7 @@
 package com.project.JobGsm.domain.sign.dto.request;
 
 import com.project.JobGsm.domain.user.User;
-import com.project.JobGsm.domain.sign.enumType.Role;
+import com.project.JobGsm.domain.user.enumType.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

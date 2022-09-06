@@ -6,12 +6,10 @@ import com.project.JobGsm.domain.sign.service.SignService;
 import com.project.JobGsm.global.response.ResponseService;
 import com.project.JobGsm.global.response.result.CommonResultResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Email;
 
 @RestController
 @RequiredArgsConstructor
@@ -33,8 +31,14 @@ public class SignController {
         return responseService.getSingleResult(result);
     }
 
-    @PostMapping("send/email")
+    @PostMapping("signup/send/email")
     public CommonResultResponse signupSendEmail(@Valid @RequestBody EmailDto emailDto) {
+        signService.forgotPasswordSendEmail(emailDto);
+        return responseService.getSuccessResult();
+    }
+
+    @PostMapping("send/email")
+    public CommonResultResponse forgotPasswordSendEmail(@Valid @RequestBody EmailDto emailDto) {
         signService.signupSendEmail(emailDto);
         return responseService.getSuccessResult();
     }
@@ -44,9 +48,15 @@ public class SignController {
         signService.checkEmailKey(checkEmailKeyDto);
         return responseService.getSuccessResult();
     }
+
     @PostMapping("change/password")
     public CommonResultResponse changePassword(@Valid @RequestBody ChangePasswordDto changePasswordDto) {
         signService.changePassword(changePasswordDto);
         return responseService.getSuccessResult();
+    }
+
+    @GetMapping("test")
+    public String test() {
+        return "임가람 병신";
     }
 }
