@@ -36,10 +36,12 @@ public class SecurityConfig {
                 .antMatchers("/refreshToken").permitAll()
                 .antMatchers("/user/send/email").permitAll()
                 .antMatchers("/user/check/email").permitAll()
+                .antMatchers("/user/test").permitAll()
+                .antMatchers("/user/write/board").permitAll()
 
                 // 권한별 url 접근
-                .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/user/**").hasRole("USER")
+//                .antMatchers("/admin/**").hasRole("ADMIN")
+//                .antMatchers("/user/**").hasRole("USER")
 
                 .anyRequest().authenticated()
                 .and()

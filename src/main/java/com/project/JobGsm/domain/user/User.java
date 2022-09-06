@@ -1,6 +1,6 @@
 package com.project.JobGsm.domain.user;
 
-import com.project.JobGsm.domain.sign.enumType.Role;
+import com.project.JobGsm.domain.user.enumType.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -9,6 +9,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -49,18 +50,18 @@ public class User implements UserDetails {
     @Column
     private String discord;
 
-    @Column
+    @Column(name = "Role")
     @Enumerated(STRING)
-    @ElementCollection(fetch = FetchType.LAZY)
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "Role", joinColumns = @JoinColumn(name = "user_id"))
-    private List<Role> role;
+    private List<Role> role = new ArrayList<>();
 
     @Column
     private String portfolio;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return getRole();
+        return role;
     }
 
     @Override
