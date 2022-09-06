@@ -68,6 +68,13 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorResponse, HttpStatus.valueOf(e.getErrorCode().getStatus()));
     }
 
+    @ExceptionHandler(BoardNotFoundException.class)
+    public ResponseEntity<ErrorResponse> BoardNotFoundException(HttpServletRequest request, BoardNotFoundException e) {
+        printException(request, e.getErrorCode());
+        ErrorResponse errorResponse = new ErrorResponse(e.getErrorCode());
+        return new ResponseEntity<>(errorResponse, HttpStatus.valueOf(e.getErrorCode().getStatus()));
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> processValidationException(MethodArgumentNotValidException e) {
         BindingResult bindingResult = e.getBindingResult();
