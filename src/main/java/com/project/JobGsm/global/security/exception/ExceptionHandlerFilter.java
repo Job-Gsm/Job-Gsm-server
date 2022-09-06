@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.JobGsm.global.exception.ErrorCode;
 import com.project.JobGsm.global.exception.ErrorResponse;
 import com.project.JobGsm.global.exception.exceptions.InvalidTokenException;
+import com.project.JobGsm.global.exception.exceptions.UserNotFoundException;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
 import lombok.RequiredArgsConstructor;
@@ -17,8 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static com.project.JobGsm.global.exception.ErrorCode.EXFIRED_TOKEN;
-import static com.project.JobGsm.global.exception.ErrorCode.INVALID_TOKEN;
+import static com.project.JobGsm.global.exception.ErrorCode.*;
 
 @Component
 @RequiredArgsConstructor
@@ -40,6 +40,9 @@ public class ExceptionHandlerFilter extends OncePerRequestFilter {
         } catch (InvalidTokenException e) {
             log.error("[ ExceptionHandlerFilter ] 에서 InvalidTokenException 발생");
             setErrorResponse(INVALID_TOKEN, response);
+        } catch (UserNotFoundException e) {
+            log.error("[ ExceptionHandlerFilter ] 에서 UserNotFoundException 발생");
+            setErrorResponse(USER_NOT_FOUND, response);
         }
     }
 
