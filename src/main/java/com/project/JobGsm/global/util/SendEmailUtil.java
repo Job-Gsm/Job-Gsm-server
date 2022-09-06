@@ -20,7 +20,7 @@ public class SendEmailUtil {
     private final JavaMailSender javaMailSender;
     private final RedisUtil redisUtil;
 
-    public void sendEmailText(String email) {
+    public String sendEmailText(String email) {
 
         Random random = new Random();
         String authKey = String.valueOf(random.nextInt(88888) + 11111);
@@ -37,6 +37,7 @@ public class SendEmailUtil {
         }
 
         redisUtil.setDataExpire(authKey, email, 60 * 5L);
+        return authKey;
     }
 
     public void checkEmailKey(String key) {
