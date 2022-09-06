@@ -1,9 +1,6 @@
 package com.project.JobGsm.domain.sign.service;
 
-import com.project.JobGsm.domain.sign.dto.request.CheckEmailKeyDto;
-import com.project.JobGsm.domain.sign.dto.request.EmailDto;
-import com.project.JobGsm.domain.sign.dto.request.SignInDto;
-import com.project.JobGsm.domain.sign.dto.request.SignUpDto;
+import com.project.JobGsm.domain.sign.dto.request.*;
 import com.project.JobGsm.domain.sign.dto.response.UserSignInResponseDto;
 import com.project.JobGsm.domain.user.repository.UserRepository;
 import com.project.JobGsm.global.util.RedisUtil;
@@ -11,15 +8,19 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 class SignServiceTest {
 
-    @Autowired private SignService signService;
-    @Autowired private UserRepository userRepository;
-    @Autowired private RedisUtil redisUtil;
+    @Autowired
+    private SignService signService;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Test
     @DisplayName("회원가입 테스트")
@@ -46,7 +47,7 @@ class SignServiceTest {
         // given
         SignInDto signInDto = SignInDto.builder()
                 .email("s21023@gsm.hs.kr")
-                .password("kimsunggil2005!")
+                .password("1234")
                 .build();
 
         // when
@@ -57,7 +58,7 @@ class SignServiceTest {
     }
 
     @Test
-    @DisplayName("회원가입 이메일 발송 테스트")
+    @DisplayName("이메일 발송 테스트")
     void signupEmail() {
 
         // given
@@ -67,6 +68,7 @@ class SignServiceTest {
 
         // when
         String authKey = signService.signupSendEmail(emailDto);
+        // String authKey = signService.forgotPasswordSendEmail(emailDto);
         System.out.println("authKey = " + authKey);
 
         // then
@@ -88,4 +90,20 @@ class SignServiceTest {
 
     }
 
+    @Test
+    @DisplayName("비밀번호 변경 테스트")
+    void changePassword() {
+
+        // given
+        ChangePasswordDto changePasswordDto = ChangePasswordDto.builder()
+                .email("s21023@gsm.hs.kr")
+                .newPassword("1234")
+                .build();
+
+        // when
+        String password = signService.changePassword(changePasswordDto);
+
+        // then
+        assertThat(passwordEncoder.matches(changePasswordDto.getNewPassword(), password)).isTrue();
+    }
 }
