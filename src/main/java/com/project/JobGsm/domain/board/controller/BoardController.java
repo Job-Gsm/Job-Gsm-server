@@ -25,13 +25,13 @@ public class BoardController {
 
     @PostMapping("write/board")
     public CommonResultResponse writeBoard(
-            @RequestPart(value = "boardDto") BoardDto boardDto,
-            @RequestPart(value = "image", required = false) MultipartFile file) {
+            @RequestPart(value = "image", required = false) MultipartFile file,
+            @RequestPart(value = "boardDto") BoardDto boardDto){
         boardService.writeBoard(boardDto, file);
         return responseService.getSuccessResult();
     }
 
-    @PatchMapping("update/board/{board_id}")
+    @PutMapping("update/board/{board_id}")
     public CommonResultResponse updateBoard(
             @RequestPart(value = "boardDto") BoardDto updateBoardDto,
             @RequestPart(value = "image", required = false) MultipartFile file,

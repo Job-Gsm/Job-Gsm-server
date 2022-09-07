@@ -12,6 +12,7 @@ import com.project.JobGsm.global.exception.exceptions.BoardNotFoundException;
 import com.project.JobGsm.global.util.CurrentUserUtil;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -35,7 +36,7 @@ public class BoardServiceImpl implements BoardService {
         try {
             uploadFile = s3Service.upload(file, "board_image/");
             boardRepository.save(boardDto.toEntity(user, uploadFile));
-        } catch (NullPointerException e) {
+        } catch (IllegalStateException e) {
             boardRepository.save(boardDto.toEntity(user, uploadFile));
         }
     }
@@ -51,7 +52,7 @@ public class BoardServiceImpl implements BoardService {
             uploadFile = s3Service.upload(file, "board_image/");
             s3Service.deleteFile(board.getUrl());
             board.updateBoard(updateBoardDto.getTitle(), updateBoardDto.getContent(), updateBoardDto.getMajors(), updateBoardDto.getDeadline(), uploadFile);
-        } catch (NullPointerException e) {
+        } catch (IllegalStateException e) {
             board.updateBoard(updateBoardDto.getTitle(), updateBoardDto.getContent(), updateBoardDto.getMajors(), updateBoardDto.getDeadline(), uploadFile);
         }
     }
@@ -65,10 +66,10 @@ public class BoardServiceImpl implements BoardService {
         boardRepository.delete(board);
     }
 
-//    @Override
-//    public Page<GetBoardDto> getAllBoard() {
-//
-//    }
+    @Override
+    public Page<GetBoardDto> getAllBoard() {
+        return null;
+    }
 
     @Override
     @Transactional
@@ -76,8 +77,9 @@ public class BoardServiceImpl implements BoardService {
         Board board = boardRepository.findById(board_id)
                 .orElseThrow(() -> new BoardNotFoundException(ErrorCode.BOARD_NOT_FOUND));
 
-        ModelMapper modelMapper = new ModelMapper();
+        boardRepository.updateViewBoard(board_id);
 
+        ModelMapper modelMapper = new ModelMapper();
         return modelMapper.map(board, GetBoardDto.class);
 
     }
