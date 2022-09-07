@@ -22,13 +22,14 @@ public class BoardDto {
     private String deadline;
 
     public Board toEntity(User user, String url) {
+
         return Board.builder()
                 .title(title)
                 .content(content)
                 .user(user)
                 .majors(majors)
                 .deadline(deadline)
-                .url("https://job-gsm-bucket.s3.ap-northeast-2.amazonaws.com/" + url)
+                .url(url == null ? url : "https://job-gsm-bucket.s3.ap-northeast-2.amazonaws.com/" + url)
                 .build();
     }
 }
