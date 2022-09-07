@@ -24,7 +24,8 @@ public class SecurityConfig {
     @Bean
     protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .cors().and()
+                .cors()
+                .and()
                 .csrf().disable()
                 .httpBasic().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -37,11 +38,10 @@ public class SecurityConfig {
                 .antMatchers("/user/send/email").permitAll()
                 .antMatchers("/user/check/email").permitAll()
                 .antMatchers("/user/test").permitAll()
-                .antMatchers("/user/write/board").permitAll()
 
                 // 권한별 url 접근
-//                .antMatchers("/admin/**").hasRole("ADMIN")
-//                .antMatchers("/user/**").hasRole("USER")
+                .antMatchers("/admin/**").hasRole("ADMIN")
+                .antMatchers("/user/**").hasRole("USER")
 
                 .anyRequest().authenticated()
                 .and()
