@@ -19,7 +19,7 @@ public class ChangePasswordDto {
     @NotBlank
     private String email;
 
-    @Size(min = 4, max = 15)
+    @Size(min = 5, max = 20)
     @NotBlank
     private String newPassword;
 
