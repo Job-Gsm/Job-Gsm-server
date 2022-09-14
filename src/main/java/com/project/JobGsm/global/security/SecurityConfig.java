@@ -35,8 +35,10 @@ public class SecurityConfig {
                 .antMatchers("/user/signup").permitAll()
                 .antMatchers("/user/signin").permitAll()
                 .antMatchers("/refreshToken").permitAll()
-                .antMatchers("/user/send/email").permitAll()
+                .antMatchers("/user/signup/send/email").permitAll()
+                .antMatchers("/user/password/send/email").permitAll()
                 .antMatchers("/user/check/email").permitAll()
+                .antMatchers("/user/change/password").permitAll()
                 .antMatchers("/user/test").permitAll()
 
                 // 권한별 url 접근
