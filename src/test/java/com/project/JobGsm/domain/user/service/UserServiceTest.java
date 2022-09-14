@@ -1,7 +1,7 @@
 package com.project.JobGsm.domain.user.service;
 
 import com.project.JobGsm.domain.user.dto.request.*;
-import com.project.JobGsm.domain.user.dto.response.UserSignInResponseDto;
+import com.project.JobGsm.domain.user.dto.response.SignInResponseDto;
 import com.project.JobGsm.domain.user.repository.UserRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -50,7 +50,7 @@ class UserServiceTest {
                 .build();
 
         // when
-        UserSignInResponseDto user = userService.signin(signInDto);
+        SignInResponseDto user = userService.signin(signInDto);
 
         // then
         assertThat(user).isNotNull();

@@ -1,13 +1,12 @@
 package com.project.JobGsm.domain.user.controller;
 
 import com.project.JobGsm.domain.user.dto.request.*;
-import com.project.JobGsm.domain.user.dto.response.UserSignInResponseDto;
+import com.project.JobGsm.domain.user.dto.response.SignInResponseDto;
 import com.project.JobGsm.domain.user.service.UserService;
 import com.project.JobGsm.global.response.ResponseService;
 import com.project.JobGsm.global.response.result.CommonResultResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
@@ -27,7 +26,7 @@ public class UserController {
 
     @PostMapping("signin")
     public CommonResultResponse signin(@Valid @RequestBody SignInDto signInDto) {
-        UserSignInResponseDto result = userService.signin(signInDto);
+        SignInResponseDto result = userService.signin(signInDto);
         return responseService.getSingleResult(result);
     }
 
