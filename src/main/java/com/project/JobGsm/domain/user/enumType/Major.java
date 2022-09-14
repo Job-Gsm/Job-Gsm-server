@@ -1,4 +1,4 @@
-package com.project.JobGsm.domain.sign.enumType;
+package com.project.JobGsm.domain.user.enumType;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import lombok.AllArgsConstructor;

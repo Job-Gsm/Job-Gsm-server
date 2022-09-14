@@ -1,10 +1,11 @@
-package com.project.JobGsm.domain.sign.service.impl;
+package com.project.JobGsm.domain.user.service.impl;
 
-import com.project.JobGsm.domain.sign.dto.request.*;
-import com.project.JobGsm.domain.sign.dto.response.UserSignInResponseDto;
-import com.project.JobGsm.domain.user.repository.UserRepository;
-import com.project.JobGsm.domain.sign.service.SignService;
 import com.project.JobGsm.domain.user.User;
+import com.project.JobGsm.domain.user.dto.request.*;
+import com.project.JobGsm.domain.user.dto.response.SignInResponseDto;
+import com.project.JobGsm.domain.user.dto.response.UserSignInResponseDto;
+import com.project.JobGsm.domain.user.repository.UserRepository;
+import com.project.JobGsm.domain.user.service.UserService;
 import com.project.JobGsm.global.exception.exceptions.DuplicateEmailException;
 import com.project.JobGsm.global.exception.exceptions.PasswordNotMatchException;
 import com.project.JobGsm.global.exception.exceptions.UserNotFoundException;
@@ -25,7 +26,7 @@ import static com.project.JobGsm.global.exception.ErrorCode.*;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class SignServiceImpl implements SignService {
+public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
@@ -55,13 +56,13 @@ public class SignServiceImpl implements SignService {
      */
     @Override
     @Transactional
-    public UserSignInResponseDto signin(SignInDto signInDto) {
+    public SignInResponseDto signin(SignInDto signInDto) {
         User user = userRepository.findByEmail(signInDto.getEmail())
                 .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND));
         if(!passwordEncoder.matches(signInDto.getPassword(), user.getPassword())) {
             throw new PasswordNotMatchException(PASSWORD_NOT_MATCH);
         }
-        return new UserSignInResponseDto(createToken(user));
+        return new SignInResponseDto(createToken(user));
     }
 
     /**
@@ -94,16 +95,16 @@ public class SignServiceImpl implements SignService {
 
     /**
      * 비밀번호 잃어버렸을 때 이메일 발송 로직
+     *
      * @param emailDto email
-     * @return authKey
      */
     @Override
     @Transactional
-    public String forgotPasswordSendEmail(EmailDto emailDto) {
+    public void forgotPasswordSendEmail(EmailDto emailDto) {
         User user = userRepository.findByEmail(emailDto.getEmail())
                 .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND));
 
-        return sendEmailUtil.sendEmailText(emailDto.getEmail());
+        sendEmailUtil.sendEmailText(emailDto.getEmail());
     }
 
     /**

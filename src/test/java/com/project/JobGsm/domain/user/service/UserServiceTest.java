@@ -1,9 +1,8 @@
-package com.project.JobGsm.domain.sign.service;
+package com.project.JobGsm.domain.user.service;
 
-import com.project.JobGsm.domain.sign.dto.request.*;
-import com.project.JobGsm.domain.sign.dto.response.UserSignInResponseDto;
+import com.project.JobGsm.domain.user.dto.request.*;
+import com.project.JobGsm.domain.user.dto.response.UserSignInResponseDto;
 import com.project.JobGsm.domain.user.repository.UserRepository;
-import com.project.JobGsm.global.util.RedisUtil;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +12,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
-class SignServiceTest {
+class UserServiceTest {
 
     @Autowired
-    private SignService signService;
+    private UserService userService;
     @Autowired
     private UserRepository userRepository;
     @Autowired
@@ -34,7 +33,7 @@ class SignServiceTest {
                 .build();
 
         // then
-        Long user = signService.signup(signUpDto);
+        Long user = userService.signup(signUpDto);
 
         // when
         assertThat(user).isEqualTo(userRepository.findByEmail(signUpDto.getEmail()).orElseThrow().getUser_id());
@@ -51,7 +50,7 @@ class SignServiceTest {
                 .build();
 
         // when
-        UserSignInResponseDto user = signService.signin(signInDto);
+        UserSignInResponseDto user = userService.signin(signInDto);
 
         // then
         assertThat(user).isNotNull();
@@ -67,7 +66,7 @@ class SignServiceTest {
                 .build();
 
         // when
-        String authKey = signService.signupSendEmail(emailDto);
+        String authKey = userService.signupSendEmail(emailDto);
         // String authKey = signService.forgotPasswordSendEmail(emailDto);
         System.out.println("authKey = " + authKey);
 
@@ -86,7 +85,7 @@ class SignServiceTest {
                 .build();
 
         // when, then
-        signService.checkEmailKey(checkEmailKeyDto);
+        userService.checkEmailKey(checkEmailKeyDto);
 
     }
 
@@ -101,7 +100,7 @@ class SignServiceTest {
                 .build();
 
         // when
-        String password = signService.changePassword(changePasswordDto);
+        String password = userService.changePassword(changePasswordDto);
 
         // then
         assertThat(passwordEncoder.matches(changePasswordDto.getNewPassword(), password)).isTrue();

@@ -1,6 +1,6 @@
-package com.project.JobGsm.domain.sign.service;
+package com.project.JobGsm.domain.user.service;
 
-import com.project.JobGsm.domain.sign.dto.request.RefreshTokenDto;
+import com.project.JobGsm.domain.user.dto.request.RefreshTokenDto;
 
 import java.util.Map;
 

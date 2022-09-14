@@ -1,7 +1,7 @@
-package com.project.JobGsm.domain.sign.controller;
+package com.project.JobGsm.domain.user.controller;
 
-import com.project.JobGsm.domain.sign.dto.request.RefreshTokenDto;
-import com.project.JobGsm.domain.sign.service.RefreshTokenService;
+import com.project.JobGsm.domain.user.dto.request.RefreshTokenDto;
+import com.project.JobGsm.domain.user.service.RefreshTokenService;
 import com.project.JobGsm.global.response.ResponseService;
 import com.project.JobGsm.global.response.result.SingleResult;
 import com.project.JobGsm.global.security.jwt.JwtTokenProvider;

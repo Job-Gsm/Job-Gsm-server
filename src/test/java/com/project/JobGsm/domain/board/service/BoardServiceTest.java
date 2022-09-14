@@ -3,8 +3,7 @@ package com.project.JobGsm.domain.board.service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.JobGsm.domain.board.dto.request.BoardDto;
 import com.project.JobGsm.domain.board.enumType.Major;
-import com.project.JobGsm.domain.sign.dto.request.SignUpDto;
-import org.junit.jupiter.api.Assertions;
+import com.project.JobGsm.domain.user.dto.request.SignUpDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -30,6 +29,7 @@ class BoardServiceTest {
                 .email("s21010@gsm.hs.kr")
                 .password("123456")
                 .username("김성길")
+                .build();
 
     }
 
