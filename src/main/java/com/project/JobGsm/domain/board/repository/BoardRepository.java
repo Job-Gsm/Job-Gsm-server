@@ -8,8 +8,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface BoardRepository extends JpaRepository<Board, Long>, BoardRepositoryCustom {
-    Page<Board> findAll(Pageable pageable);
-
-    long updateViewBoard(Long board_id);
+    void updateViewBoard(Long board_id);
 
 }

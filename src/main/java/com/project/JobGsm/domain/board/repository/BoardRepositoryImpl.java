@@ -13,9 +13,9 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public long updateViewBoard(Long board_id) {
+    public void updateViewBoard(Long board_id) {
 
-        return jpaQueryFactory
+        jpaQueryFactory
                 .update(board)
                 .set(board.view, board.view.add(1))
                 .where(board.board_id.eq(board_id))

@@ -2,7 +2,7 @@ package com.project.JobGsm.domain.board.service.Impl;
 
 import com.project.JobGsm.domain.board.Board;
 import com.project.JobGsm.domain.board.dto.request.BoardDto;
-import com.project.JobGsm.domain.board.dto.request.GetBoardDto;
+import com.project.JobGsm.domain.board.dto.response.GetBoardDto;
 import com.project.JobGsm.domain.board.repository.BoardRepository;
 import com.project.JobGsm.domain.board.service.BoardService;
 import com.project.JobGsm.domain.board.service.S3Service;
@@ -13,6 +13,7 @@ import com.project.JobGsm.global.util.CurrentUserUtil;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -55,6 +56,7 @@ public class BoardServiceImpl implements BoardService {
         } catch (IllegalStateException e) {
             board.updateBoard(updateBoardDto.getTitle(), updateBoardDto.getContent(), updateBoardDto.getMajors(), updateBoardDto.getDeadline(), uploadFile);
         }
+
     }
 
     @Override
@@ -64,11 +66,20 @@ public class BoardServiceImpl implements BoardService {
                 .orElseThrow(() -> new BoardNotFoundException(ErrorCode.BOARD_NOT_FOUND));
         
         boardRepository.delete(board);
+
     }
 
     @Override
-    public Page<GetBoardDto> getAllBoard() {
-        return null;
+    @Transactional
+    public Page<GetBoardDto> getAllBoard(Pageable pageable) {
+
+        Page<Board> boardPage = boardRepository.findAll(pageable);
+
+        return boardPage.map(board -> {
+            ModelMapper modelMapper = new ModelMapper();
+            GetBoardDto map = modelMapper.map(board, GetBoardDto.class);
+            return map;
+        });
     }
 
     @Override

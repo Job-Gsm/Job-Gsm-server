@@ -1,12 +1,16 @@
 package com.project.JobGsm.domain.board.controller;
 
 import com.project.JobGsm.domain.board.dto.request.BoardDto;
-import com.project.JobGsm.domain.board.dto.request.GetBoardDto;
+import com.project.JobGsm.domain.board.dto.response.GetBoardDto;
 import com.project.JobGsm.domain.board.service.BoardService;
 import com.project.JobGsm.global.response.ResponseService;
 import com.project.JobGsm.global.response.result.CommonResultResponse;
 import com.project.JobGsm.global.response.result.SingleResult;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.bind.annotation.RestController;
@@ -46,10 +50,11 @@ public class BoardController {
         return responseService.getSuccessResult();
     }
 
-//    @GetMapping("/board")
-//    public SingleResult<Page<GetBoardDto>> getAllBoard() {
-//
-//    }
+    @GetMapping("/board")
+    public SingleResult<Page<GetBoardDto>> getAllBoard(@PageableDefault(direction = Sort.Direction.DESC) Pageable pageable) {
+        Page<GetBoardDto> result = boardService.getAllBoard(pageable);
+        return responseService.getSingleResult(result);
+    }
 
     @GetMapping("board/{board_id}")
     public SingleResult<GetBoardDto> getBoardById(@PathVariable Long board_id) {

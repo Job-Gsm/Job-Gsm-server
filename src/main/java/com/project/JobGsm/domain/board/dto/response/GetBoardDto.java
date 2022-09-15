@@ -1,4 +1,4 @@
-package com.project.JobGsm.domain.board.dto.request;
+package com.project.JobGsm.domain.board.dto.response;
 
 import com.project.JobGsm.domain.board.enumType.Major;
 import lombok.*;
@@ -12,6 +12,7 @@ import java.util.List;
 @Setter
 public class GetBoardDto {
 
+    private Long board_id;
     private String title;
     private String content;
     private List<Major> majors;
