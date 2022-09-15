@@ -1,5 +1,6 @@
 package com.project.JobGsm.domain.user.service.impl;
 
+import com.project.JobGsm.domain.board.service.S3Service;
 import com.project.JobGsm.domain.user.User;
 import com.project.JobGsm.domain.user.dto.request.*;
 import com.project.JobGsm.domain.user.dto.response.ProfileResponseDto;
@@ -16,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
 import java.util.HashMap;
@@ -34,6 +36,7 @@ public class UserServiceImpl implements UserService {
     private final JwtTokenProvider jwtTokenProvider;
     private final SendEmailUtil sendEmailUtil;
     private final CurrentUserUtil currentUserUtil;
+    private final S3Service s3Service;
 
     /**
      * 회원가입 로직
@@ -149,10 +152,25 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
+     * 프로필 사진 업데이트 하는 로직
+     * @param multipartFile file
+     */
+    @Override
+    @Transactional
+    public void uploadProfileImage(MultipartFile file) {
+
+        User user = currentUserUtil.getCurrentUser();
+        String url = s3Service.upload(file, "profile_image/");
+        user.updateUrl(url);
+
+    }
+
+    /**
      * 프로필 상세보기 로직
      * @return name, email, hithub, major, career, career
      */
     @Override
+    @Transactional
     public ProfileResponseDto findByUserId() {
 
         User user = currentUserUtil.getCurrentUser();
@@ -160,6 +178,7 @@ public class UserServiceImpl implements UserService {
         return ProfileResponseDto.builder()
                 .name(user.getUsername())
                 .email(user.getEmail())
+                .discord(user.getDiscord())
                 .github(user.getGithub())
                 .major(user.getMajor())
                 .career(user.getCareer())

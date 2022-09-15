@@ -53,6 +53,9 @@ public class User implements UserDetails {
     @Column
     private String discord;
 
+    @Column
+    private String url;
+
     @Column(name = "Role")
     @Enumerated(STRING)
     @ElementCollection(fetch = FetchType.EAGER)
@@ -95,6 +98,10 @@ public class User implements UserDetails {
     public void updateMajorAndCareer(Major major, int career) {
         this.major = major != null ? major : this.major;
         this.career = career != 0 ? career : this.career;
+    }
+
+    public void updateUrl(String url) {
+        this.url = url != null ? url : this.url;
     }
 
 }
