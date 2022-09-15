@@ -1,9 +1,9 @@
 package com.project.JobGsm.domain.user.service;
 
-import com.project.JobGsm.domain.user.dto.request.*;
 import com.project.JobGsm.domain.user.User;
+import com.project.JobGsm.domain.user.dto.request.*;
+import com.project.JobGsm.domain.user.dto.response.ProfileResponseDto;
 import com.project.JobGsm.domain.user.dto.response.SignInResponseDto;
-import com.project.JobGsm.domain.user.dto.response.UserSignInResponseDto;
 
 import java.util.Map;
 
@@ -16,4 +16,6 @@ public interface UserService {
     void forgotPasswordSendEmail(EmailDto emailDto);
     void checkEmailKey(CheckEmailKeyDto checkEmailKeyDto);
     String changePassword(ChangePasswordDto changePasswordDto);
+    void selectMajor(SelectMajorDto selectMajorDto);
+    ProfileResponseDto findByUserId();
 }

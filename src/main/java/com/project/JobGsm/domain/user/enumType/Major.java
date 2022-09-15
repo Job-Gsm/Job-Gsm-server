@@ -16,6 +16,7 @@ public enum Major {
     PROJECT_MANAGER("project_manager"),
     ANDROID("android"),
     IOS("ios"),
+    FULL_STACK("full_stack"),
     DATABASE_ADMINISTATOR("database_administator");
 
     private final String value;

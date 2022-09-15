@@ -1,5 +1,6 @@
 package com.project.JobGsm.domain.user;
 
+import com.project.JobGsm.domain.user.enumType.Major;
 import com.project.JobGsm.domain.user.enumType.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,9 +9,11 @@ import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import javax.annotation.Nullable;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import static javax.persistence.EnumType.STRING;
@@ -39,13 +42,13 @@ public class User implements UserDetails {
     private String refreshToken;
 
     @Column
-    private String major;
+    private Major major;
 
     @Column
     private String github;
 
     @Column
-    private String career;
+    private Integer career;
 
     @Column
     private String discord;
@@ -55,9 +58,6 @@ public class User implements UserDetails {
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "Role", joinColumns = @JoinColumn(name = "user_id"))
     private List<Role> role = new ArrayList<>();
-
-    @Column
-    private String portfolio;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -91,4 +91,10 @@ public class User implements UserDetails {
     public void updatePassword(String password) {
         this.password = password != null ? password : this.password;
     }
+
+    public void updateMajorAndCareer(Major major, int career) {
+        this.major = major != null ? major : this.major;
+        this.career = career != 0 ? career : this.career;
+    }
+
 }
