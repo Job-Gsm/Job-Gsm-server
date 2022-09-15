@@ -8,6 +8,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+import javax.validation.constraints.Null;
+
 import static com.project.JobGsm.global.exception.ErrorCode.USER_NOT_FOUND;
 
 @Component
@@ -15,6 +17,19 @@ import static com.project.JobGsm.global.exception.ErrorCode.USER_NOT_FOUND;
 public class CurrentUserUtil {
 
     private final UserRepository userRepository;
+
+    public static String getCurrentUserEmail() {
+
+        String email;
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if(principal instanceof UserDetails) {
+            email = ((User) principal).getEmail();
+        } else {
+            email = principal.toString();
+        }
+        return email;
+
+    }
 
     public User getCurrentUser() {
         String email;
