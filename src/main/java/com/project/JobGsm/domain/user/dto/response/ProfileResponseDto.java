@@ -14,6 +14,7 @@ public class ProfileResponseDto {
 
     private String name;
     private String email;
+    private String discord;
     private String github;
     private Major major;
     private int career;
