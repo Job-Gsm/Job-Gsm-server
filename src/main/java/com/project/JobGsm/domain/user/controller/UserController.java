@@ -1,12 +1,14 @@
 package com.project.JobGsm.domain.user.controller;
 
 import com.project.JobGsm.domain.user.dto.request.*;
+import com.project.JobGsm.domain.user.dto.response.ProfileResponseDto;
 import com.project.JobGsm.domain.user.dto.response.SignInResponseDto;
 import com.project.JobGsm.domain.user.service.UserService;
 import com.project.JobGsm.global.response.ResponseService;
 import com.project.JobGsm.global.response.result.CommonResultResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 
@@ -54,10 +56,23 @@ public class UserController {
         return responseService.getSuccessResult();
     }
 
-//    @PostMapping("select/major")
-//    public CommonResultResponse selectMajor(@RequestBody SelectMajorDto selectMajorDto) {
-//
-//    }
+    @PostMapping("select/major")
+    public CommonResultResponse selectMajor(@Valid @RequestBody SelectMajorDto selectMajorDto) {
+        userService.selectMajor(selectMajorDto);
+        return responseService.getSuccessResult();
+    }
+
+    @PatchMapping("profile/image")
+    public CommonResultResponse uploadProfileImage(@RequestPart(value = "image") MultipartFile file) {
+        userService.uploadProfileImage(file);
+        return responseService.getSuccessResult();
+    }
+
+    @GetMapping()
+    public CommonResultResponse profile() {
+        ProfileResponseDto result = userService.findByUserId();
+        return responseService.getSingleResult(result);
+    }
 
     @GetMapping("test")
     public String test() {
