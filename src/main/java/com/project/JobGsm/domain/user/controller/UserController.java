@@ -56,8 +56,14 @@ public class UserController {
         return responseService.getSuccessResult();
     }
 
+    @PostMapping("update/information")
+    public CommonResultResponse updateUserInformation(@Valid @RequestBody UserInformationDto userInformationDto) {
+        userService.updateUserInformation(userInformationDto);
+        return responseService.getSuccessResult();
+    }
+
     @PostMapping("select/major")
-    public CommonResultResponse selectMajor(@Valid @RequestBody SelectMajorDto selectMajorDto) {
+    public CommonResultResponse selectMajor(@RequestBody SelectMajorDto selectMajorDto) {
         userService.selectMajor(selectMajorDto);
         return responseService.getSuccessResult();
     }

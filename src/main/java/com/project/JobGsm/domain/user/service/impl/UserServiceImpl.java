@@ -137,23 +137,38 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
+     * 디스코드, 깃허브, 경력, 닉네임 업데이트 로직
+     * @param userInformationDto email, username, githup, discord, career
+     */
+    @Override
+    @Transactional
+    public void updateUserInformation(UserInformationDto userInformationDto) {
+
+        User user = userRepository.findByEmail(userInformationDto.getEmail())
+                .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND));
+
+        user.updateUserInformation(userInformationDto.getUsername(), userInformationDto.getGithub(), userInformationDto.getDiscord(), userInformationDto.getCareer());
+
+    }
+
+    /**
      * 전공 선택 로직
      * @param selectMajorDto email, major
      */
     @Override
-    @Transactional
     public void selectMajor(SelectMajorDto selectMajorDto) {
 
         User user = userRepository.findByEmail(selectMajorDto.getEmail())
                 .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND));
 
-        user.updateMajorAndCareer(selectMajorDto.getMajor(), selectMajorDto.getCareer());
+        user.updateMajor(selectMajorDto.getMajor());
 
     }
 
+
     /**
      * 프로필 사진 업데이트 하는 로직
-     * @param multipartFile file
+     * @param file file
      */
     @Override
     @Transactional

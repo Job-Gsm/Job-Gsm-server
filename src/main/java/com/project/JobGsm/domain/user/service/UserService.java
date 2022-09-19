@@ -17,6 +17,8 @@ public interface UserService {
     void forgotPasswordSendEmail(EmailDto emailDto);
     void checkEmailKey(CheckEmailKeyDto checkEmailKeyDto);
     String changePassword(ChangePasswordDto changePasswordDto);
+    void updateUserInformation(UserInformationDto userInformationDto);
+
     void selectMajor(SelectMajorDto selectMajorDto);
     void uploadProfileImage(MultipartFile file);
     ProfileResponseDto findByUserId();
