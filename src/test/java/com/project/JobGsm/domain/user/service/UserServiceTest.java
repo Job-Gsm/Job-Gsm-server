@@ -40,7 +40,7 @@ class UserServiceTest {
         // given
         SignInDto signInDto = SignInDto.builder()
                 .email("s21023@gsm.hs.kr")
-                .password("kimsunggil2005!")
+                .password("1234")
                 .build();
 
         SignInResponseDto login = userService.signin(signInDto);
@@ -68,7 +68,6 @@ class UserServiceTest {
         SignUpDto signUpDto = SignUpDto.builder()
                 .email("s21023@gsm.hs.kr")
                 .password("kimsunggil2005!")
-                .username("김성길")
                 .build();
 
         // then

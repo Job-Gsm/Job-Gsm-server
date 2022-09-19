@@ -25,14 +25,11 @@ public class SignUpDto {
     @Size(min = 5, max = 20)
     @NotBlank
     private String password;
-    @NotBlank
-    private String username;
 
     public User toEntity(String password) {
         return User.builder()
                 .email(email)
                 .password(password)
-                .username(username)
                 .role(Collections.singletonList(Role.ROLE_USER))
                 .build();
     }

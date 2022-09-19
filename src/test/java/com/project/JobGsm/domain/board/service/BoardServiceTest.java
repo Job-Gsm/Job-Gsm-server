@@ -22,17 +22,6 @@ class BoardServiceTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-    @BeforeEach
-    void currentUser() {
-
-        SignUpDto signUpDto = SignUpDto.builder()
-                .email("s21010@gsm.hs.kr")
-                .password("123456")
-                .username("김성길")
-                .build();
-
-    }
-
     @Test
     @DisplayName("구직광고 업로드 테스트")
     void writeBoard() {
