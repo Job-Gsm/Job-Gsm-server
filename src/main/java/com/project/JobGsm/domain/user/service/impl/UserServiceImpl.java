@@ -106,7 +106,8 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void forgotPasswordSendEmail(EmailDto emailDto) {
-        User user = userRepository.findByEmail(emailDto.getEmail())
+
+        userRepository.findByEmail(emailDto.getEmail())
                 .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND));
 
         sendEmailUtil.sendEmailText(emailDto.getEmail());
