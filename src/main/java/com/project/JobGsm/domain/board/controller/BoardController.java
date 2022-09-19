@@ -23,10 +23,6 @@ public class BoardController {
     private final BoardService boardService;
     private final ResponseService responseService;
 
-    /*
-    삭제 상세보기(view 증가) 게시글 전체 보기
-     */
-
     @PostMapping("write/board")
     public CommonResultResponse writeBoard(
             @RequestPart(value = "image", required = false) MultipartFile file,
