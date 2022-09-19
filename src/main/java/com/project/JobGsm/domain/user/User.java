@@ -95,9 +95,15 @@ public class User implements UserDetails {
         this.password = password != null ? password : this.password;
     }
 
-    public void updateMajorAndCareer(Major major, int career) {
-        this.major = major != null ? major : this.major;
+    public void updateUserInformation(String username, String github, String discord, int career) {
+        this.username = username != null ? username : this.username;
+        this.github = github != null ? github : this.github;
+        this.discord = discord != null ? discord : this.discord;
         this.career = career != 0 ? career : this.career;
+    }
+
+    public void updateMajor(Major major) {
+        this.major = major != null ? major : this.major;
     }
 
     public void updateUrl(String url) {
