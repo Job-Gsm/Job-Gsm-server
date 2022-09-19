@@ -156,6 +156,7 @@ public class UserServiceImpl implements UserService {
      * @param selectMajorDto email, major
      */
     @Override
+    @Transactional
     public void selectMajor(SelectMajorDto selectMajorDto) {
 
         User user = userRepository.findByEmail(selectMajorDto.getEmail())
@@ -163,8 +164,9 @@ public class UserServiceImpl implements UserService {
 
         user.updateMajor(selectMajorDto.getMajor());
 
+        System.out.println("selectMajorDto.getMajor() = " + selectMajorDto.getMajor());
+        System.out.println("user = " + user);
     }
-
 
     /**
      * 프로필 사진 업데이트 하는 로직
