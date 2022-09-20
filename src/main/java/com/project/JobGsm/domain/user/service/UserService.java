@@ -18,9 +18,8 @@ public interface UserService {
     void checkEmailKey(CheckEmailKeyDto checkEmailKeyDto);
     String changePassword(ChangePasswordDto changePasswordDto);
     void updateUserInformation(UserInformationDto userInformationDto);
-
     void selectMajor(SelectMajorDto selectMajorDto);
     void uploadProfileImage(MultipartFile file);
-    ProfileResponseDto findByUserId();
-
+    ProfileResponseDto currentUser();
+    ProfileResponseDto findByUserId(Long user_id);
 }

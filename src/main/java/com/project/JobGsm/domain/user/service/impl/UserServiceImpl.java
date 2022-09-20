@@ -148,7 +148,7 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findByEmail(userInformationDto.getEmail())
                 .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND));
 
-        user.updateUserInformation(userInformationDto.getUsername(), userInformationDto.getGithub(), userInformationDto.getDiscord(), userInformationDto.getCareer());
+        user.updateUserInformation(userInformationDto.getUsername(), userInformationDto.getGithub(), userInformationDto.getDiscord());
 
     }
 
@@ -163,7 +163,7 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findByEmail(selectMajorDto.getEmail())
                 .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND));
 
-        user.updateMajor(selectMajorDto.getMajor());
+        user.updateMajor(selectMajorDto.getMajor(), selectMajorDto.getCareer());
 
         System.out.println("selectMajorDto.getMajor() = " + selectMajorDto.getMajor());
         System.out.println("user = " + user);
@@ -184,12 +184,33 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
+     * 인증객체로 내 프로필 로직
+     * @return name, email, hithub, major, career, career
+     */
+    @Override
+    public ProfileResponseDto findByUserId(Long user_id) {
+
+        User user = userRepository.findById(user_id)
+                .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND));
+
+        return ProfileResponseDto.builder()
+                .name(user.getUsername())
+                .email(user.getEmail())
+                .discord(user.getDiscord())
+                .github(user.getGithub())
+                .major(user.getMajor())
+                .career(user.getCareer())
+                .build();
+
+    }
+
+    /**
      * 프로필 상세보기 로직
      * @return name, email, hithub, major, career, career
      */
     @Override
     @Transactional
-    public ProfileResponseDto findByUserId() {
+    public ProfileResponseDto currentUser() {
 
         User user = currentUserUtil.getCurrentUser();
 
