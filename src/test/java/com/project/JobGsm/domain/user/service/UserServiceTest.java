@@ -35,7 +35,7 @@ class UserServiceTest {
 
     @BeforeEach
     @DisplayName("인증객체 테스트")
-    void currentUser() {
+    void 인증객체() {
 
         // given
         SignInDto signInDto = SignInDto.builder()
@@ -95,7 +95,7 @@ class UserServiceTest {
     }
 
     @Test
-    @DisplayName("이메일 발송 테스트")
+    @DisplayName("이메일 인증키 발송 테스트")
     void signupEmail() {
 
         // given
@@ -154,7 +154,6 @@ class UserServiceTest {
                 .username("유환빈")
                 .discord("성길#0091")
                 .github("SungGil-5125")
-                .career(3)
                 .build();
 
         // when // then
@@ -170,6 +169,7 @@ class UserServiceTest {
         SelectMajorDto selectMajorDto = SelectMajorDto.builder()
                 .email("s21023@gsm.hs.kr")
                 .major(Major.findByCode("front-end"))
+                .career(3)
                 .build();
 
         System.out.println("selectMajorDto = " + selectMajorDto.getMajor());
@@ -180,13 +180,24 @@ class UserServiceTest {
     }
 
     @Test
-    @DisplayName("프로필 상세보기 테스트")
-    void findByUserId() {
+    @DisplayName("자기 프로필 상세보기 테스트")
+    void currentUser() {
 
         // given // when
-        ProfileResponseDto user = userService.findByUserId();
+        ProfileResponseDto user = userService.currentUser();
 
         // then
         assertThat(user).isNotNull();
+    }
+
+    @Test
+    @DisplayName("user_id로 프로필 상세보기 테스트")
+    void findByUserId() {
+
+        // given // when
+        ProfileResponseDto user = userService.findByUserId(1L);
+        // then
+        assertThat(user).isNotNull();
+
     }
 }
