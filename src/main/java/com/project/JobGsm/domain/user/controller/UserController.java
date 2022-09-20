@@ -56,14 +56,14 @@ public class UserController {
         return responseService.getSuccessResult();
     }
 
-    @PostMapping("update/information")
+    @PostMapping("information")
     public CommonResultResponse updateUserInformation(@Valid @RequestBody UserInformationDto userInformationDto) {
         userService.updateUserInformation(userInformationDto);
         return responseService.getSuccessResult();
     }
 
     @PostMapping("select/major")
-    public CommonResultResponse selectMajor(@RequestBody SelectMajorDto selectMajorDto) {
+    public CommonResultResponse selectMajor(@Valid @RequestBody SelectMajorDto selectMajorDto) {
         userService.selectMajor(selectMajorDto);
         return responseService.getSuccessResult();
     }
@@ -75,8 +75,14 @@ public class UserController {
     }
 
     @GetMapping()
-    public CommonResultResponse profile() {
-        ProfileResponseDto result = userService.findByUserId();
+    public CommonResultResponse currentUserProfile() {
+        ProfileResponseDto result = userService.currentUser();
+        return responseService.getSingleResult(result);
+    }
+
+    @GetMapping("{user_id}")
+    public CommonResultResponse findByUserIdProfile(@PathVariable Long user_id) {
+        ProfileResponseDto result = userService.findByUserId(user_id);
         return responseService.getSingleResult(result);
     }
 
