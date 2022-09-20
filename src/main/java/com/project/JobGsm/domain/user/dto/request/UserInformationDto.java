@@ -29,6 +29,4 @@ public class UserInformationDto {
     @NotBlank
     private String discord;
 
-    private Integer career;
-
 }

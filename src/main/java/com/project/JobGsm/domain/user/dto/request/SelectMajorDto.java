@@ -21,4 +21,6 @@ public class SelectMajorDto {
 
     private Major major;
 
+    private Integer career;
+
 }
