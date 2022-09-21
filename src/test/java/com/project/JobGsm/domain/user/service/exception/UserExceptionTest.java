@@ -1,9 +1,11 @@
 package com.project.JobGsm.domain.user.service.exception;
 
+import com.project.JobGsm.domain.user.dto.request.CheckEmailKeyDto;
 import com.project.JobGsm.domain.user.dto.request.SignInDto;
 import com.project.JobGsm.domain.user.dto.request.SignUpDto;
 import com.project.JobGsm.domain.user.service.UserService;
 import com.project.JobGsm.global.exception.exceptions.DuplicateEmailException;
+import com.project.JobGsm.global.exception.exceptions.KeyNotCorrectException;
 import com.project.JobGsm.global.exception.exceptions.PasswordNotMatchException;
 import com.project.JobGsm.global.exception.exceptions.UserNotFoundException;
 import org.junit.jupiter.api.DisplayName;
@@ -73,6 +75,22 @@ public class UserExceptionTest {
         // when // then
         assertThrows(PasswordNotMatchException.class, () -> {
             userService.signin(signInDto);
+        });
+
+    }
+
+    @Test
+    @DisplayName("이메일 인증번호 틀릴 때 테스트")
+    void KeyNotCorrectException() {
+
+        // given
+        CheckEmailKeyDto checkEmailKeyDto = CheckEmailKeyDto.builder()
+                .key("12345")
+                .build();
+
+        // when // then
+        assertThrows(KeyNotCorrectException.class, () -> {
+            userService.checkEmailKey(checkEmailKeyDto);
         });
 
     }
