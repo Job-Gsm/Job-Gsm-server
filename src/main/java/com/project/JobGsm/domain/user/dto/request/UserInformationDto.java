@@ -25,7 +25,6 @@ public class UserInformationDto {
     @NotBlank
     private String github;
 
-    @Pattern(regexp = "/#/", message = "다시 확인해주세요.")
     @NotBlank
     private String discord;
 
