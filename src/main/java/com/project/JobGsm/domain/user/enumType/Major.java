@@ -17,7 +17,7 @@ public enum Major {
     ANDROID("android"),
     IOS("ios"),
     FULL_STACK("full_stack"),
-    DATABASE_ADMINISTATOR("database_administator");
+    DATABASE_ADMINISTATOR("database_administrator");
 
     private final String value;
 
