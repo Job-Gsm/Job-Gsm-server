@@ -1,5 +1,6 @@
 package com.project.JobGsm.domain.board.service;
 
+import com.project.JobGsm.domain.board.Board;
 import com.project.JobGsm.domain.board.dto.request.BoardDto;
 import com.project.JobGsm.domain.board.dto.response.GetBoardDto;
 import org.springframework.data.domain.Page;
@@ -13,4 +14,5 @@ public interface BoardService {
     void deleteBoard(Long board_id);
     Page<GetBoardDto> getAllBoard(Pageable pageable);
     GetBoardDto getBoardById(Long board_id);
+    Board findByBoardId(Long board_id);
 }

@@ -9,6 +9,7 @@ import com.project.JobGsm.domain.board.service.S3Service;
 import com.project.JobGsm.domain.user.User;
 import com.project.JobGsm.global.exception.ErrorCode;
 import com.project.JobGsm.global.exception.exceptions.BoardNotFoundException;
+import com.project.JobGsm.global.exception.exceptions.NoBoardException;
 import com.project.JobGsm.global.util.CurrentUserUtil;
 import com.project.JobGsm.global.util.ResponseDtoUtil;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +20,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
+
+import static com.project.JobGsm.global.exception.ErrorCode.NO_BOARD;
 
 @Service
 @RequiredArgsConstructor
@@ -46,8 +49,8 @@ public class BoardServiceImpl implements BoardService {
     @Override
     @Transactional
     public void updateBoard(Long board_id, BoardDto updateBoardDto, MultipartFile file) {
-        Board board = boardRepository.findById(board_id)
-                .orElseThrow(() -> new BoardNotFoundException(ErrorCode.BOARD_NOT_FOUND));
+        Board board = findByBoardId(board_id);
+
         String uploadFile = null;
 
         try {
@@ -63,8 +66,8 @@ public class BoardServiceImpl implements BoardService {
     @Override
     @Transactional
     public void deleteBoard(Long board_id) {
-        Board board = boardRepository.findById(board_id)
-                .orElseThrow(() -> new BoardNotFoundException(ErrorCode.BOARD_NOT_FOUND));
+
+        Board board = findByBoardId(board_id);
         
         boardRepository.delete(board);
 
@@ -76,6 +79,10 @@ public class BoardServiceImpl implements BoardService {
 
         Page<Board> boardPage = boardRepository.findAll(pageable);
 
+        if(boardPage.isEmpty()) {
+            throw new NoBoardException(NO_BOARD);
+        }
+
         return boardPage.map(board -> {
             ModelMapper modelMapper = new ModelMapper();
             return modelMapper.map(board, GetBoardDto.class);
@@ -85,12 +92,18 @@ public class BoardServiceImpl implements BoardService {
     @Override
     @Transactional
     public GetBoardDto getBoardById(Long board_id) {
-        Board board = boardRepository.findById(board_id)
-                .orElseThrow(() -> new BoardNotFoundException(ErrorCode.BOARD_NOT_FOUND));
+        Board board = findByBoardId(board_id);
 
         boardRepository.updateViewBoard(board_id);
 
         return ResponseDtoUtil.map(board, GetBoardDto.class);
 
     }
+
+    @Override
+    public Board findByBoardId(Long board_id) {
+        return boardRepository.findById(board_id)
+                .orElseThrow(() -> new BoardNotFoundException(ErrorCode.BOARD_NOT_FOUND));
+    }
+
 }
