@@ -41,7 +41,7 @@ public class BoardServiceImpl implements BoardService {
         try {
             uploadFile = s3Service.upload(file, "board_image/");
             boardRepository.save(boardDto.toEntity(user, uploadFile));
-        } catch (IllegalStateException e) {
+        } catch (NullPointerException e) {
             boardRepository.save(boardDto.toEntity(user, uploadFile));
         }
     }
@@ -57,7 +57,7 @@ public class BoardServiceImpl implements BoardService {
             uploadFile = s3Service.upload(file, "board_image/");
             s3Service.deleteFile(board.getUrl());
             board.updateBoard(updateBoardDto.getTitle(), updateBoardDto.getContent(), updateBoardDto.getMajors(), updateBoardDto.getDeadline(), uploadFile);
-        } catch (IllegalStateException e) {
+        } catch (NullPointerException e) {
             board.updateBoard(updateBoardDto.getTitle(), updateBoardDto.getContent(), updateBoardDto.getMajors(), updateBoardDto.getDeadline(), uploadFile);
         }
 
