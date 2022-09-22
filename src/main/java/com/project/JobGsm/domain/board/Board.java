@@ -1,6 +1,7 @@
 package com.project.JobGsm.domain.board;
 
 import com.project.JobGsm.domain.board.enumType.Major;
+import com.project.JobGsm.domain.comment.Comment;
 import com.project.JobGsm.domain.user.User;
 import com.project.JobGsm.global.entity.BaseTimeEntity;
 import lombok.*;
@@ -41,6 +42,9 @@ public class Board extends BaseTimeEntity {
 
     @Column
     private String url;
+
+    @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "board", fetch = FetchType.LAZY)
+    private List<Comment> comments;
 
     @Column(columnDefinition = "integer default 0", nullable = false)
     private int view;
