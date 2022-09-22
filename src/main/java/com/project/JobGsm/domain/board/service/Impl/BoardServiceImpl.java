@@ -10,6 +10,7 @@ import com.project.JobGsm.domain.user.User;
 import com.project.JobGsm.global.exception.ErrorCode;
 import com.project.JobGsm.global.exception.exceptions.BoardNotFoundException;
 import com.project.JobGsm.global.util.CurrentUserUtil;
+import com.project.JobGsm.global.util.ResponseDtoUtil;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
@@ -77,8 +78,7 @@ public class BoardServiceImpl implements BoardService {
 
         return boardPage.map(board -> {
             ModelMapper modelMapper = new ModelMapper();
-            GetBoardDto map = modelMapper.map(board, GetBoardDto.class);
-            return map;
+            return modelMapper.map(board, GetBoardDto.class);
         });
     }
 
@@ -90,8 +90,7 @@ public class BoardServiceImpl implements BoardService {
 
         boardRepository.updateViewBoard(board_id);
 
-        ModelMapper modelMapper = new ModelMapper();
-        return modelMapper.map(board, GetBoardDto.class);
+        return ResponseDtoUtil.map(board, GetBoardDto.class);
 
     }
 }

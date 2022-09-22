@@ -12,9 +12,11 @@ import com.project.JobGsm.global.exception.exceptions.PasswordNotMatchException;
 import com.project.JobGsm.global.exception.exceptions.UserNotFoundException;
 import com.project.JobGsm.global.security.jwt.JwtTokenProvider;
 import com.project.JobGsm.global.util.CurrentUserUtil;
+import com.project.JobGsm.global.util.ResponseDtoUtil;
 import com.project.JobGsm.global.util.SendEmailUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.tomcat.util.http.ResponseUtil;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -88,29 +90,14 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * 회원가입 할 때 이메일 발송 로직
+     * 이메일 인증번호 발송 로직
      * @param emailDto email
      * @return authKey
      */
     @Override
     @Transactional
-    public String signupSendEmail(EmailDto emailDto) {
+    public String sendEmail(EmailDto emailDto) {
         return sendEmailUtil.sendEmailText(emailDto.getEmail());
-    }
-
-    /**
-     * 비밀번호 잃어버렸을 때 이메일 발송 로직
-     *
-     * @param emailDto email
-     */
-    @Override
-    @Transactional
-    public void forgotPasswordSendEmail(EmailDto emailDto) {
-
-        userRepository.findByEmail(emailDto.getEmail())
-                .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND));
-
-        sendEmailUtil.sendEmailText(emailDto.getEmail());
     }
 
     /**
@@ -193,14 +180,7 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findById(user_id)
                 .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND));
 
-        return ProfileResponseDto.builder()
-                .name(user.getUsername())
-                .email(user.getEmail())
-                .discord(user.getDiscord())
-                .github(user.getGithub())
-                .major(user.getMajor())
-                .career(user.getCareer())
-                .build();
+        return ResponseDtoUtil.map(user, ProfileResponseDto.class);
 
     }
 
@@ -214,14 +194,8 @@ public class UserServiceImpl implements UserService {
 
         User user = currentUserUtil.getCurrentUser();
 
-        return ProfileResponseDto.builder()
-                .name(user.getUsername())
-                .email(user.getEmail())
-                .discord(user.getDiscord())
-                .github(user.getGithub())
-                .major(user.getMajor())
-                .career(user.getCareer())
-                .build();
+        return ResponseDtoUtil.map(user, ProfileResponseDto.class);
+
     }
 
 
