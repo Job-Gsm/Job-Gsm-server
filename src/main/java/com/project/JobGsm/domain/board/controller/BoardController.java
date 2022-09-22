@@ -23,7 +23,7 @@ public class BoardController {
     private final BoardService boardService;
     private final ResponseService responseService;
 
-    @PostMapping("write/board")
+    @PostMapping("board")
     public CommonResultResponse writeBoard(
             @RequestPart(value = "image", required = false) MultipartFile file,
             @RequestPart(value = "boardDto") BoardDto boardDto){
@@ -31,7 +31,7 @@ public class BoardController {
         return responseService.getSuccessResult();
     }
 
-    @PutMapping("update/board/{board_id}")
+    @PatchMapping("board/{board_id}")
     public CommonResultResponse updateBoard(
             @RequestPart(value = "boardDto") BoardDto updateBoardDto,
             @RequestPart(value = "image", required = false) MultipartFile file,
@@ -40,7 +40,7 @@ public class BoardController {
         return responseService.getSuccessResult();
     }
 
-    @DeleteMapping("delete/board/{board_id}")
+    @DeleteMapping("board/{board_id}")
     public CommonResultResponse deleteBoard(@PathVariable Long board_id) {
         boardService.deleteBoard(board_id);
         return responseService.getSuccessResult();
