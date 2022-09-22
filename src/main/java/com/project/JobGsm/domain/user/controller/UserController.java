@@ -32,15 +32,9 @@ public class UserController {
         return responseService.getSingleResult(result);
     }
 
-    @PostMapping("signup/send/email")
+    @PostMapping("send/email")
     public CommonResultResponse signupSendEmail(@Valid @RequestBody EmailDto emailDto) {
-        userService.signupSendEmail(emailDto);
-        return responseService.getSuccessResult();
-    }
-
-    @PostMapping("password/send/email")
-    public CommonResultResponse forgotPasswordSendEmail(@Valid @RequestBody EmailDto emailDto) {
-        userService.forgotPasswordSendEmail(emailDto);
+        userService.sendEmail(emailDto);
         return responseService.getSuccessResult();
     }
 

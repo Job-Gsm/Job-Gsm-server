@@ -13,8 +13,7 @@ public interface UserService {
     Long signup(SignUpDto signUpDto);
     SignInResponseDto signin(SignInDto signInDto);
     Map<String, String> createToken(User user);
-    String signupSendEmail(EmailDto emailDto);
-    void forgotPasswordSendEmail(EmailDto emailDto);
+    String sendEmail(EmailDto emailDto);
     void checkEmailKey(CheckEmailKeyDto checkEmailKeyDto);
     String changePassword(ChangePasswordDto changePasswordDto);
     void updateUserInformation(UserInformationDto userInformationDto);
