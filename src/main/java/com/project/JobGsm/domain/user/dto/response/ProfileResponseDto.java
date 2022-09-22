@@ -1,18 +1,16 @@
 package com.project.JobGsm.domain.user.dto.response;
 
 import com.project.JobGsm.domain.user.enumType.Major;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Setter
 public class ProfileResponseDto {
 
-    private String name;
+    private String username;
     private String email;
     private String discord;
     private String github;
