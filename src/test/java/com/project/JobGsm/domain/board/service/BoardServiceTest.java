@@ -3,10 +3,12 @@ package com.project.JobGsm.domain.board.service;
 import com.project.JobGsm.domain.board.dto.request.BoardDto;
 import com.project.JobGsm.domain.board.dto.response.GetBoardDto;
 import com.project.JobGsm.domain.board.enumType.Major;
+import com.project.JobGsm.domain.board.repository.BoardRepository;
 import com.project.JobGsm.domain.user.dto.request.SignInDto;
 import com.project.JobGsm.domain.user.enumType.Role;
 import com.project.JobGsm.domain.user.service.UserService;
 import com.project.JobGsm.global.util.CurrentUserUtil;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -31,6 +33,8 @@ class BoardServiceTest {
     private BoardService boardService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private BoardRepository boardRepository;
 
     @BeforeEach
     @DisplayName("인증객체 테스트")
@@ -90,7 +94,7 @@ class BoardServiceTest {
                 .build();
 
         // when // then
-        boardService.updateBoard(4L, boardDto, null);
+        boardService.updateBoard(1L, boardDto, null);
 
     }
 
@@ -98,9 +102,11 @@ class BoardServiceTest {
     @DisplayName("구직광고 삭제 테스트")
     void deleteBoard() {
 
-        // given // when // then
-        boardService.deleteBoard(4L);
+        // given // when
+        boardService.deleteBoard(1L);
 
+        // then
+        Assertions.assertNull(boardRepository.findById(1L));
     }
 
     @Test
@@ -123,7 +129,7 @@ class BoardServiceTest {
     void getBoardById() {
 
         // given // when
-        GetBoardDto board = boardService.getBoardById(4L);
+        GetBoardDto board = boardService.getBoardById(1L);
 
         // then
         assertThat(board).isNotNull();
