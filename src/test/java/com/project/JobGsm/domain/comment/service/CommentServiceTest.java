@@ -2,9 +2,7 @@ package com.project.JobGsm.domain.comment.service;
 
 import com.project.JobGsm.domain.comment.dto.CommentDto;
 import com.project.JobGsm.domain.comment.repository.CommentRepository;
-import com.project.JobGsm.domain.comment.service.CommentService;
 import com.project.JobGsm.domain.user.dto.request.SignInDto;
-import com.project.JobGsm.domain.user.dto.response.SignInResponseDto;
 import com.project.JobGsm.domain.user.enumType.Role;
 import com.project.JobGsm.domain.user.service.UserService;
 import com.project.JobGsm.global.util.CurrentUserUtil;
@@ -64,7 +62,7 @@ public class CommentServiceTest {
 
         // given
         CommentDto commentDto = CommentDto.builder()
-                .content("댓글 테스트")
+                .content("댓글 테스트2")
                 .build();
 
         // when
@@ -72,6 +70,24 @@ public class CommentServiceTest {
 
         // then
         Assertions.assertThat(comment).isNotNull();
+
+    }
+
+    @Test
+    @DisplayName("댓글 수정 테스트")
+    void updateComment() {
+
+    }
+
+    @Test
+    @DisplayName("댓글 삭제 테스트")
+    void deleteComment() {
+
+        // given // when
+        commentService.deleteComment(2L);
+
+        // then
+        org.junit.jupiter.api.Assertions.assertNull(commentRepository.findById(2L));
 
     }
 
