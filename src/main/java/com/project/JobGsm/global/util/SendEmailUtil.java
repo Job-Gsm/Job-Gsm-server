@@ -1,9 +1,13 @@
 package com.project.JobGsm.global.util;
 
 import com.project.JobGsm.global.exception.exceptions.KeyNotCorrectException;
+import io.lettuce.core.RedisCommandTimeoutException;
+import jdk.jfr.Enabled;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
@@ -15,11 +19,13 @@ import static com.project.JobGsm.global.exception.ErrorCode.KEY_NOT_CORRECT;
 
 @Service
 @RequiredArgsConstructor
+@EnableAsync
 public class SendEmailUtil {
 
     private final JavaMailSender javaMailSender;
     private final RedisUtil redisUtil;
 
+    @Async
     public String sendEmailText(String email) {
 
         Random random = new Random();
@@ -41,8 +47,11 @@ public class SendEmailUtil {
     }
 
     public void checkEmailKey(String key) {
-        if(redisUtil.getData(key) == null) {
-            throw new KeyNotCorrectException(KEY_NOT_CORRECT);
+        try {
+            if(redisUtil.getData(key) == null)
+                throw new KeyNotCorrectException(KEY_NOT_CORRECT);
+        } catch (RedisCommandTimeoutException e) {
+            e.printStackTrace();
         }
     }
 }
