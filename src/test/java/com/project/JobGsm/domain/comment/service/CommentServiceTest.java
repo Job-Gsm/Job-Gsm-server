@@ -1,5 +1,6 @@
 package com.project.JobGsm.domain.comment.service;
 
+import com.project.JobGsm.domain.board.service.BoardService;
 import com.project.JobGsm.domain.comment.dto.CommentDto;
 import com.project.JobGsm.domain.comment.repository.CommentRepository;
 import com.project.JobGsm.domain.user.dto.request.SignInDto;
@@ -19,6 +20,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 @SpringBootTest
 public class CommentServiceTest {
 
@@ -28,6 +31,8 @@ public class CommentServiceTest {
     private CommentRepository commentRepository;
     @Autowired
     private UserService userService;
+    @Autowired
+    private BoardService boardService;
 
     @BeforeEach
     @DisplayName("인증객체 테스트")
@@ -62,20 +67,28 @@ public class CommentServiceTest {
 
         // given
         CommentDto commentDto = CommentDto.builder()
-                .content("댓글 테스트2")
+                .content("댓글 테스트")
                 .build();
 
         // when
         Long comment = commentService.writeComment(commentDto, 1L);
 
         // then
-        Assertions.assertThat(comment).isNotNull();
+        assertThat(comment).isNotNull();
 
     }
 
     @Test
     @DisplayName("댓글 수정 테스트")
     void updateComment() {
+
+        // given
+        CommentDto commentDto = CommentDto.builder()
+                .content("댓글 업로드 테스트")
+                .build();
+
+        // when // then
+        commentService.updateCommet(commentDto, 1L);
 
     }
 
@@ -84,10 +97,22 @@ public class CommentServiceTest {
     void deleteComment() {
 
         // given // when
-        commentService.deleteComment(2L);
+        commentService.deleteComment(3L);
 
         // then
-        org.junit.jupiter.api.Assertions.assertNull(commentRepository.findById(2L));
+        assertThat(commentRepository.findById(3L)).isEmpty();
+
+    }
+
+    @Test
+    @DisplayName("구직광고 삭제 했을 때 댓글도 삭제되는가 테스트")
+    void deleteBoardAndComment() {
+
+        // given // when
+        boardService.deleteBoard(1L);
+
+        // then
+        assertThat(commentRepository.findById(4L)).isEmpty();
 
     }
 
