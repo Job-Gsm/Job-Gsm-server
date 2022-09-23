@@ -20,4 +20,16 @@ public class CommentController {
         commentService.writeComment(commentDto, board_id);
         return responseService.getSuccessResult();
     }
+
+    @PatchMapping("comment/{comment_id}")
+    public CommonResultResponse updateComment(@PathVariable("comment_id") Long comment_id, @RequestBody CommentDto commentDto) {
+        commentService.updateCommet(commentDto, comment_id);
+        return responseService.getSuccessResult();
+    }
+
+    @DeleteMapping("comment/{comment_id}")
+    public CommonResultResponse deleteComment(@PathVariable("comment_id") Long comment_id) {
+        commentService.deleteComment(comment_id);
+        return responseService.getSuccessResult();
+    }
 }

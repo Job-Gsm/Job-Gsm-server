@@ -2,15 +2,19 @@ package com.project.JobGsm.domain.comment.service.Impl;
 
 import com.project.JobGsm.domain.board.Board;
 import com.project.JobGsm.domain.board.service.BoardService;
+import com.project.JobGsm.domain.comment.Comment;
 import com.project.JobGsm.domain.comment.dto.CommentDto;
 import com.project.JobGsm.domain.comment.repository.CommentRepository;
 import com.project.JobGsm.domain.comment.service.CommentService;
 import com.project.JobGsm.domain.user.User;
+import com.project.JobGsm.global.exception.exceptions.CommentNotFoundException;
 import com.project.JobGsm.global.util.CurrentUserUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+
+import static com.project.JobGsm.global.exception.ErrorCode.COMMENT_NOT_FOUND;
 
 @Service
 @RequiredArgsConstructor
@@ -31,13 +35,27 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public void updateCommet(CommentDto commentDto) {
+    public void updateCommet(CommentDto commentDto, Long comment_id) {
+
+        Comment comment = findByCommentId(comment_id);
+
+        comment.updateContent(commentDto.getContent());
 
     }
 
     @Override
     public void deleteComment(Long comment_id) {
 
+        Comment comment = findByCommentId(comment_id);
+        commentRepository.delete(comment);
+
     }
+
+    @Override
+    public Comment findByCommentId(Long comment_id) {
+        return commentRepository.findById(comment_id)
+                .orElseThrow(() -> new CommentNotFoundException(COMMENT_NOT_FOUND));
+    }
+
 
 }
