@@ -26,6 +26,10 @@ public enum ErrorCode {
     /* BOARD */
     BOARD_NOT_FOUND(404, "게시글을 찾을 수 없습니다."),
     NO_BOARD(404, "게시글이 하나도 없습니다."),
+
+
+    /* COMMENT */
+    COMMENT_NOT_FOUND(404, "댓글을 찾을 수 없습니다."),
     ;
 
     private int status;
