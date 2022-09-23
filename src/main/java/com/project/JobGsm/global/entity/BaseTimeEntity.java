@@ -20,6 +20,4 @@ public class BaseTimeEntity {
     @Column(updatable = false)
     private LocalDateTime createDate;
 
-    @LastModifiedBy
-    private LocalDateTime modifiedDate;
 }
