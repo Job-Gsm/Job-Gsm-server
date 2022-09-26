@@ -60,6 +60,7 @@ public class User implements UserDetails {
     @Enumerated(STRING)
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "Role", joinColumns = @JoinColumn(name = "user_id"))
+    @Builder.Default
     private List<Role> role = new ArrayList<>();
 
     @Override
