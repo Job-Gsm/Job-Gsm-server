@@ -1,4 +1,4 @@
-package com.project.JobGsm.domain.user.dto.request;
+package com.project.JobGsm.domain.email.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,6 +16,8 @@ public class CheckEmailKeyDto {
 
     @Size(min = 5, max = 5)
     @NotBlank
-    private String key;
+    private String authKey;
+
+    private String email;
 
 }
