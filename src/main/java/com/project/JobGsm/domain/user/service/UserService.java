@@ -13,12 +13,11 @@ public interface UserService {
     Long signup(SignUpDto signUpDto);
     SignInResponseDto signin(SignInDto signInDto);
     Map<String, String> createToken(User user);
-    String sendEmail(EmailDto emailDto);
-    void checkEmailKey(CheckEmailKeyDto checkEmailKeyDto);
-    String changePassword(ChangePasswordDto changePasswordDto);
+    void changePassword(ChangePasswordDto changePasswordDto);
     void updateUserInformation(UserInformationDto userInformationDto);
     void selectMajor(SelectMajorDto selectMajorDto);
     void uploadProfileImage(MultipartFile file);
     ProfileResponseDto currentUser();
     ProfileResponseDto findByUserId(Long user_id);
+
 }

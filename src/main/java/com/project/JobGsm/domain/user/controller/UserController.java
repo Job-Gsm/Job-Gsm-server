@@ -1,5 +1,7 @@
 package com.project.JobGsm.domain.user.controller;
 
+import com.project.JobGsm.domain.email.dto.CheckEmailKeyDto;
+import com.project.JobGsm.domain.email.dto.EmailDto;
 import com.project.JobGsm.domain.user.dto.request.*;
 import com.project.JobGsm.domain.user.dto.response.ProfileResponseDto;
 import com.project.JobGsm.domain.user.dto.response.SignInResponseDto;
@@ -30,18 +32,6 @@ public class UserController {
     public CommonResultResponse signin(@Valid @RequestBody SignInDto signInDto) {
         SignInResponseDto result = userService.signin(signInDto);
         return responseService.getSingleResult(result);
-    }
-
-    @PostMapping("send/email")
-    public CommonResultResponse signupSendEmail(@Valid @RequestBody EmailDto emailDto) {
-        userService.sendEmail(emailDto);
-        return responseService.getSuccessResult();
-    }
-
-    @PostMapping("check/email")
-    public CommonResultResponse checkEmail(@Valid @RequestBody CheckEmailKeyDto checkEmailKeyDto) {
-        userService.checkEmailKey(checkEmailKeyDto);
-        return responseService.getSuccessResult();
     }
 
     @PostMapping("change/password")

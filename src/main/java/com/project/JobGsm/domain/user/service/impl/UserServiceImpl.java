@@ -13,10 +13,8 @@ import com.project.JobGsm.global.exception.exceptions.UserNotFoundException;
 import com.project.JobGsm.global.security.jwt.JwtTokenProvider;
 import com.project.JobGsm.global.util.CurrentUserUtil;
 import com.project.JobGsm.global.util.ResponseDtoUtil;
-import com.project.JobGsm.global.util.SendEmailUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.tomcat.util.http.ResponseUtil;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -36,7 +34,6 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
-    private final SendEmailUtil sendEmailUtil;
     private final CurrentUserUtil currentUserUtil;
     private final S3Service s3Service;
 
@@ -90,38 +87,17 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * 이메일 인증번호 발송 로직
-     * @param emailDto email
-     * @return authKey
-     */
-    @Override
-    @Transactional
-    public String sendEmail(EmailDto emailDto) {
-        return sendEmailUtil.sendEmailText(emailDto.getEmail());
-    }
-
-    /**
-     * 인증번호 확인 로직
-     * @param checkEmailKeyDto key
-     */
-    @Override
-    public void checkEmailKey(CheckEmailKeyDto checkEmailKeyDto) {
-        sendEmailUtil.checkEmailKey(checkEmailKeyDto.getKey());
-    }
-
-    /**
      * 비밀번호 변경 로직
+     *
      * @param changePasswordDto email, newPassword
-     * @return newPassword(encode)
      */
     @Override
     @Transactional
-    public String changePassword(ChangePasswordDto changePasswordDto) {
+    public void changePassword(ChangePasswordDto changePasswordDto) {
         User user = userRepository.findByEmail(changePasswordDto.getEmail())
                 .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND));
         String newPassword = passwordEncoder.encode(changePasswordDto.getNewPassword());
         user.updatePassword(newPassword);
-        return newPassword;
     }
 
     /**
@@ -197,6 +173,5 @@ public class UserServiceImpl implements UserService {
         return ResponseDtoUtil.map(user, ProfileResponseDto.class);
 
     }
-
 
 }
