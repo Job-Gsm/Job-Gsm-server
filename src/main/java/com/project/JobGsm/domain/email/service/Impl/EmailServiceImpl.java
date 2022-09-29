@@ -8,6 +8,7 @@ import com.project.JobGsm.domain.email.service.EmailService;
 import com.project.JobGsm.global.exception.exceptions.KeyNotCorrectException;
 import com.project.JobGsm.global.exception.exceptions.UserNotFoundException;
 import io.lettuce.core.RedisCommandTimeoutException;
+import io.lettuce.core.RedisException;
 import io.lettuce.core.RedisLoadingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -50,7 +51,6 @@ public class EmailServiceImpl implements EmailService {
                 .orElse(EmailCertification.builder()
                         .email(email)
                         .authKey(authKey)
-                        .certification(false)
                         .build());
 
         emailRepository.save(emailCertification);
@@ -71,27 +71,17 @@ public class EmailServiceImpl implements EmailService {
     @Override
     public void checkEmailKey(CheckEmailKeyDto checkEmailKeyDto) {
 
-        try {
-            EmailCertification emailCertification = emailRepository.findById(checkEmailKeyDto.getEmail())
-                    .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND));
+        EmailCertification emailCertification = emailRepository.findById(checkEmailKeyDto.getEmail())
+                .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND));
 
-            if(!emailCertification.getAuthKey().equals(checkEmailKeyDto.getAuthKey())) {
-                throw new KeyNotCorrectException(KEY_NOT_CORRECT);
-            }
-
-            log.info(emailCertification.getAuthKey());
-
-            emailCertification.updateCertification(true);
-        } catch (RedisCommandTimeoutException e) {
-            log.info("성공");
+        if(!emailCertification.getAuthKey().equals(checkEmailKeyDto.getAuthKey())) {
+            throw new KeyNotCorrectException(KEY_NOT_CORRECT);
         }
 
     }
 
     @Override
     public String createAuthKey(String email) {
-
-//        emailRepository.findById(email).orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND));
 
         Random random = new Random();
         return String.valueOf(random.nextInt(88888) + 11111);

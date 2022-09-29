@@ -24,10 +24,4 @@ public class EmailCertification {
     @Column
     private String authKey;
 
-    @Column
-    private boolean certification;
-
-    public void updateCertification(boolean certification) {
-        this.certification = certification;
-    }
 }
